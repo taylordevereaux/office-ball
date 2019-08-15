@@ -1,0 +1,19 @@
+<ul>
+  <li *ngFor="let player of players">
+    {{player.name}}
+  </li>
+</ul>
+
+<button class="btn btn-primary" (click)="addPlayer();">Add Player</button>
+
+
+<ng-container *ngIf="this.isAdding">
+  <form [formGroup]="form" >
+    <div class="form-group">
+      <label for="name">Email address</label>
+      <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter name" formControlName="name">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="submitPlayer();">Submit</button>
+    <button type="reset" class="btn btn-secondary" (click)="cancelPlayer();">Cancel</button>
+  </form>
+</ng-container>

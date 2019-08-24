@@ -43,7 +43,7 @@
       </div>
       <div class="row">
         <div class="col-lg-5 col-xl-4">
-          <Players :players="players" />
+          <Players :players="players" @playerAdded="addPlayer" />
         </div>
         <div class="col-lg-7 col-xl-8">
           <div class="card shadow mb-4">
@@ -54,23 +54,6 @@
             </div>
             <div class="card-body">
               <ShotsChart :players="players" />
-              <!-- <div class="chart-bar">
-                <div class="chartjs-size-monitor">
-                  <div class="chartjs-size-monitor-expand">
-                    <div class></div>
-                  </div>
-                  <div class="chartjs-size-monitor-shrink">
-                    <div class></div>
-                  </div>
-                </div>
-                <canvas
-                  id="myBarChart"
-                  style="display: block; width: 847px; height: 320px;"
-                  width="847"
-                  height="320"
-                  class="chartjs-render-monitor"
-                ></canvas>
-              </div>-->
             </div>
           </div>
         </div>
@@ -130,12 +113,26 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    addPlayer(playerName) {
+      if (
+        this.players.filter(
+          x => x.name.toUpperCase() === playerName.toUpperCase()
+        ).length > 0
+      ) {
+        return;
+      } else {
+        this.players.push({
+          name: playerName,
+          shots: 0,
+          tags: []
+        });
+      }
+    }
   }
 };
 </script>
 
 <style>
-@import "./assets/bootstrap/css/bootstrap.min.css";
-@import "./assets/fonts/font-awesome.min.css";
-@import "./assets/css/styles.css";
 </style>

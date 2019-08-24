@@ -30,74 +30,35 @@
         <div class="row">
           <div class="col-md-6 col-xl-3 mb-4">
             <hightlight-widget
-                color="primary"
-                value="Eric"
-                text="Most Consecutive Shots"
-                icon="dribbble"
+              color="primary"
+              v-bind:value="highlights.mostShots"
+              text="Most Consecutive Shots"
+              icon="dribbble"
             ></hightlight-widget>
           </div>
           <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div
-                      class="text-xs font-weight-bold text-success text-uppercase mb-1"
-                    >
-                      <span>Most Trick Shots</span>
-                    </div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      <span>Taylor</span>
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fa fa-magic fa-2x text-success"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <hightlight-widget
+              color="success"
+              v-bind:value="highlights.mostTrickShots"
+              text="Most Trick Shots"
+              icon="magic"
+            ></hightlight-widget>
           </div>
           <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card border-left-danger shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div
-                      class="text-xs font-weight-bold text-danger text-uppercase mb-1"
-                    >
-                      <span>Most disasters</span>
-                    </div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      <span>Yannick</span>
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fa fa-ambulance fa-2x text-danger"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <hightlight-widget
+              color="danger"
+              v-bind:value="highlights.mostDisasters"
+              text="Most disasters"
+              icon="ambulance"
+            ></hightlight-widget>
           </div>
           <div class="col-md-6 col-xl-3 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-              <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                    <div
-                      class="text-xs font-weight-bold text-warning text-uppercase mb-1"
-                    >
-                      <span>Days since last disaster</span>
-                    </div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      <span>0</span>
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <i class="fa fa-hourglass-start fa-2x text-warning"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <hightlight-widget
+              color="warning"
+              v-bind:value="highlights.daysSinceLastDisaster"
+              text="Days since last disaster"
+              icon="hourglass-start"
+            ></hightlight-widget>
           </div>
         </div>
         <div class="row">

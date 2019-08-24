@@ -1,7 +1,7 @@
 
 <template>
   <div v-if="loaded">
-    <bar-chart :chartdata="this.chartData" :options="this.chartOptions" />
+    <bar-chart :chartData="this.chartData" :options="this.chartOptions" />
   </div>
 </template>
 
@@ -91,11 +91,22 @@ export default {
 
     const labels = this.players.map(x => x.name);
     const shots = this.players.map(x => x.shots);
-    const tricks = this.players.map(x =>
-      x.tags.map(tag => !tag.isDisaster).reduce((a, b) => a.count + b.count)
-    );
-    const disasters = this.players.map(x =>
-      x.tags.map(tag => tag.isDisaster).reduce((a, b) => a.count + b.count)
+
+    const trickShots = isDisaster =>
+      this.players.map(x => {
+        const map = x.tags.filter(tag => !!tag.isDisaster === isDisaster);
+        if (map.length > 1) return map.reduce((a, b) => a.count + b.count);
+        else if (map.length === 1) return map[0].count;
+        return 0;
+      });
+
+    const tricks = trickShots(false);
+    const disasters = trickShots(true);
+
+    this.chartOptions.scales.yAxes[0].ticks.max = Math.max(
+      ...tricks,
+      ...disasters,
+      ...shots
     );
 
     this.chartData = {

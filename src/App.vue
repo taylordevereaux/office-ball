@@ -43,7 +43,11 @@
       </div>
       <div class="row">
         <div class="col-lg-5 col-xl-4">
-          <Players :players="players" @playerAdded="addPlayer" />
+          <Players
+            :players="players"
+            @playerAdded="addPlayer"
+            @incremementShots="incremementShots"
+          />
         </div>
         <div class="col-lg-7 col-xl-8">
           <div class="card shadow mb-4">
@@ -120,12 +124,25 @@ export default {
           });
       }
     },
+    incremementShots(player) {
+      playersService
+        .incremementPlayerShots(player.id, player.shots)
+        .then(result => {
+          this._refreshPlayerShots(player.id, player.shots);
+        });
+    },
     _pushPlayer(player) {
       this.players.push(player);
       this._refreshHightlights();
     },
     _setPlayers(players) {
       this.players = players;
+      this._refreshHightlights();
+    },
+    _refreshPlayerShots(playerId, shots) {
+      const existingPlayer = this.players.filter(p => p.id === playerId)[0];
+      existingPlayer.shots = shots;
+      // this.players = this.players;
       this._refreshHightlights();
     },
     _refreshHightlights() {

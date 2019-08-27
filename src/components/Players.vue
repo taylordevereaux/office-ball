@@ -30,7 +30,11 @@
             </div>
             <div class="col-auto"></div>
             <div class="col-auto text-primary align-items-center">
-              <a class="ml-2 text-primary" href="#">
+              <a
+                class="ml-2 link text-primary c-pointer"
+                :data-id="player.id"
+                @click="incremementShots"
+              >
                 <i class="fa fa-dribbble fa-2x text-primary"></i>
                 <h4 class="d-inline-block">&nbsp;x{{ player.shots }}</h4>
               </a>
@@ -119,6 +123,21 @@ export default {
       event.preventDefault();
       event.stopImmediatePropagation();
       return false;
+    },
+    incremementShots(event) {
+      const id = event.currentTarget.dataset.id;
+
+      if (id !== null && id !== undefined) {
+        let players = this.players.filter(p => p.id === id);
+
+        if (players.length === 1) {
+          const player = players[0];
+          this.$emit('incremementShots', {
+            id: player.id,
+            shots: event.ctrlKey ? player.shots - 1 : player.shots + 1
+          });
+        }
+      }
     }
   },
   mounted() {

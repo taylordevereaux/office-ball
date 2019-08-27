@@ -7,5 +7,16 @@ export const playersService = {
   },
   addPlayer(player) {
     return axios.post(`${server.baseURL}/api/players`, player);
+  },
+  incremementPlayerShots(playerId, shots) {
+    return axios.put(
+      `${server.baseURL}/api/players/${playerId}/setshots`,
+      null,
+      {
+        params: {
+          shots: shots
+        }
+      }
+    );
   }
 };

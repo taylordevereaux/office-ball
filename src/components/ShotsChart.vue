@@ -1,7 +1,7 @@
 
 <template>
   <div v-if="loaded">
-    <bar-chart :chartData="chartData" :options="this.chartOptions" />
+    <bar-chart :chartData="chartData" :options="chartOptions" />
   </div>
 </template>
 
@@ -48,7 +48,6 @@ export default {
               ticks: {
                 min: 0,
                 max: 5,
-                maxTicksLimit: 5,
                 padding: 10
               },
               gridLines: {
@@ -90,11 +89,13 @@ export default {
   },
   mounted() {
     this.chartData = this.getChartData();
+    this.chartOptions = this.getChartOptions();
     this.loaded = this.chartData !== null;
   },
   watch: {
     players: function(vue, old) {
       this.chartData = this.getChartData();
+      this.chartOptions = this.getChartOptions();
       this.loaded = this.chartData !== null;
     }
   },
@@ -115,13 +116,6 @@ export default {
 
       const tricks = trickShots(false);
       const disasters = trickShots(true);
-
-      // TODO : Possibly change to assignment instead of direct update.
-      this.chartOptions.scales.yAxes[0].ticks.max = Math.max(
-        ...tricks,
-        ...disasters,
-        ...shots
-      );
 
       return {
         labels: labels,
@@ -149,6 +143,27 @@ export default {
           }
         ]
       };
+    },
+    getChartOptions: function() {
+      if (this.chartData !== null) {
+        return {
+          ...this.chartOptions,
+          scales: {
+            yAxes: this.chartOptions.scales.yAxes.map((item, index) => {
+              if (index == 0) {
+                item.ticks.max = Math.max(
+                  ...this.chartData.datasets[0].data,
+                  ...this.chartData.datasets[1].data,
+                  ...this.chartData.datasets[2].data
+                );
+              }
+              return item;
+            })
+          }
+        };
+      } else {
+        return this.chartOptions;
+      }
     }
   }
 };

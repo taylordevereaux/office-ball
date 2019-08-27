@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import BarChart from "./base-charts/BarChart";
+import BarChart from './base-charts/BarChart';
 
 export default {
-  name: "ShotsChart",
-  props: ["players"],
+  name: 'ShotsChart',
+  props: ['players'],
   components: { BarChart },
   data() {
     return {
@@ -30,7 +30,7 @@ export default {
           xAxes: [
             {
               time: {
-                unit: "number"
+                unit: 'number'
               },
               gridLines: {
                 display: false,
@@ -50,8 +50,8 @@ export default {
                 padding: 10
               },
               gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
+                color: 'rgb(234, 236, 244)',
+                zeroLineColor: 'rgb(234, 236, 244)',
                 drawBorder: false,
                 borderDash: [2],
                 zeroLineBorderDash: [2]
@@ -64,11 +64,11 @@ export default {
         },
         tooltips: {
           titleMarginBottom: 10,
-          titleFontColor: "#6e707e",
+          titleFontColor: '#6e707e',
           titleFontSize: 14,
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: "#dddfeb",
+          backgroundColor: 'rgb(255,255,255)',
+          bodyFontColor: '#858796',
+          borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
           yPadding: 15,
@@ -77,8 +77,8 @@ export default {
           callbacks: {
             label: function(tooltipItem, chart) {
               var datasetLabel =
-                chart.datasets[tooltipItem.datasetIndex].label || "";
-              return datasetLabel + ": " + tooltipItem.yLabel;
+                chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + ': ' + tooltipItem.yLabel;
             }
           }
         },
@@ -113,24 +113,24 @@ export default {
       labels: labels,
       datasets: [
         {
-          label: "Consecutive",
-          backgroundColor: "#4e73df",
-          hoverBackgroundColor: "#2e59d9",
-          borderColor: "#4e73df",
+          label: 'Consecutive',
+          backgroundColor: '#4e73df',
+          hoverBackgroundColor: '#2e59d9',
+          borderColor: '#4e73df',
           data: shots
         },
         {
-          label: "Trick",
-          backgroundColor: "#1cc88a",
-          hoverBackgroundColor: "#2e59d9",
-          borderColor: "#1cc88a",
+          label: 'Trick',
+          backgroundColor: '#1cc88a',
+          hoverBackgroundColor: '#2e59d9',
+          borderColor: '#1cc88a',
           data: tricks
         },
         {
-          label: "Disasters",
-          backgroundColor: "#e74a3b",
-          hoverBackgroundColor: "#2e59d9",
-          borderColor: "#e74a3b",
+          label: 'Disasters',
+          backgroundColor: '#e74a3b',
+          hoverBackgroundColor: '#2e59d9',
+          borderColor: '#e74a3b',
           data: disasters
         }
       ]

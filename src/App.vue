@@ -63,13 +63,18 @@
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue";
-import HighlightWidget from "./components/HighlightWidget.vue";
-import Players from "./components/Players.vue";
-import ShotsChart from "./components/ShotsChart.vue";
+import NavBar from './components/NavBar.vue';
+import HighlightWidget from './components/HighlightWidget.vue';
+import Players from './components/Players.vue';
+import ShotsChart from './components/ShotsChart.vue';
+import { highlightsService } from './_services/highlights.service';
+import { playersService } from './_endpoints/players.service';
+
+import axios from 'axios';
+import { server } from './helper';
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     NavBar,
     HighlightWidget,
@@ -79,40 +84,21 @@ export default {
   data() {
     return {
       highlights: {
-        mostShots: "Eric",
-        mostTrickShots: "Taylor",
-        mostDisasters: "Yannick",
+        mostShots: '',
+        mostTrickShots: '',
+        mostDisasters: '',
         daysSinceLastDisaster: 0
       },
-      players: [
-        {
-          name: "Taylor",
-          shots: 5,
-          tags: [
-            { name: "Table Shot", count: 1 },
-            { name: "Football", count: 1 }
-          ]
-        },
-        {
-          name: "Yannick",
-          shots: 4,
-          tags: [
-            { name: "Table Shot", count: 1 },
-            { name: "Disaster", count: 2, isDisaster: true }
-          ]
-        },
-        {
-          name: "Eric",
-          shots: 7,
-          tags: [{ name: "Disaster", count: 1, isDisaster: true }]
-        },
-        {
-          name: "Brian",
-          shots: 3,
-          tags: []
-        }
-      ]
+      players: []
     };
+  },
+  mounted() {
+    axios
+      .get(`${server.baseURL}/api/players`, {
+        crossdomain: true
+      })
+      .then(result => this._setPlayers(result.data))
+      .catch(error => console.log(error));
   },
   methods: {
     addPlayer(playerName) {
@@ -128,6 +114,16 @@ export default {
           shots: 0,
           tags: []
         });
+      }
+    },
+    _setPlayers(players) {
+      this.players = players;
+      if (this.players.length) {
+        const highlights = highlightsService.getHightlights(this.players);
+        this.highlights = {
+          ...this.highlights,
+          ...highlights
+        };
       }
     }
   }

@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  props: ["color", "text", "value", "icon"]
+  props: ['color', 'text', 'value', 'icon']
 };
 </script>
 

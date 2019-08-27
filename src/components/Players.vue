@@ -96,14 +96,14 @@
 </template>
 
 <script>
-import $ from "jquery";
+import $ from 'jquery';
 
 export default {
-  name: "Players",
-  props: ["players"],
+  name: 'Players',
+  props: ['players'],
   data() {
     return {
-      playerName: ""
+      playerName: ''
     };
   },
   methods: {
@@ -112,14 +112,14 @@ export default {
       if (!name || !name.length > 0) {
         return;
       }
-      this.$emit("playerAdded", name);
+      this.$emit('playerAdded', name);
 
-      $("#addPlayerModal").modal("hide");
+      $('#addPlayerModal').modal('hide');
     }
   },
   mounted() {
-    $("#addPlayerModal").on("shown.bs.modal", function() {
-      $("#playerName").trigger("focus");
+    $('#addPlayerModal').on('shown.bs.modal', function() {
+      $('#playerName').trigger('focus');
     });
   }
 };

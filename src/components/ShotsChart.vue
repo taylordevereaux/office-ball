@@ -1,7 +1,7 @@
 
 <template>
   <div v-if="loaded">
-    <bar-chart :chartData="this.chartData" :options="this.chartOptions" />
+    <bar-chart :chartData="chartData" :options="this.chartOptions" />
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
         scales: {
           xAxes: [
             {
+              beginAtZero: true,
               time: {
                 unit: 'number'
               },
@@ -37,6 +38,7 @@ export default {
                 drawBorder: false
               },
               ticks: {
+                autoSkip: false,
                 maxTicksLimit: 6
               }
             }
@@ -87,56 +89,67 @@ export default {
     };
   },
   mounted() {
-    if (!this.players || this.players.length === 0) return;
+    this.chartData = this.getChartData();
+    this.loaded = this.chartData !== null;
+  },
+  watch: {
+    players: function(vue, old) {
+      this.chartData = this.getChartData();
+      this.loaded = this.chartData !== null;
+    }
+  },
+  methods: {
+    getChartData: function() {
+      if (!this.players || this.players.length === 0) return this.chartData;
 
-    const labels = this.players.map(x => x.name);
-    const shots = this.players.map(x => x.shots);
+      const labels = this.players.map(x => x.name);
+      const shots = this.players.map(x => x.shots);
 
-    const trickShots = isDisaster =>
-      this.players.map(x => {
-        const map = x.tags.filter(tag => !!tag.isDisaster === isDisaster);
-        if (map.length > 1) return map.reduce((a, b) => a.count + b.count);
-        else if (map.length === 1) return map[0].count;
-        return 0;
-      });
+      const trickShots = isDisaster =>
+        this.players.map(x => {
+          const map = x.tags.filter(tag => !!tag.isDisaster === isDisaster);
+          if (map.length > 1) return map.reduce((a, b) => a.count + b.count);
+          else if (map.length === 1) return map[0].count;
+          return 0;
+        });
 
-    const tricks = trickShots(false);
-    const disasters = trickShots(true);
+      const tricks = trickShots(false);
+      const disasters = trickShots(true);
 
-    this.chartOptions.scales.yAxes[0].ticks.max = Math.max(
-      ...tricks,
-      ...disasters,
-      ...shots
-    );
+      // TODO : Possibly change to assignment instead of direct update.
+      this.chartOptions.scales.yAxes[0].ticks.max = Math.max(
+        ...tricks,
+        ...disasters,
+        ...shots
+      );
 
-    this.chartData = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Consecutive',
-          backgroundColor: '#4e73df',
-          hoverBackgroundColor: '#2e59d9',
-          borderColor: '#4e73df',
-          data: shots
-        },
-        {
-          label: 'Trick',
-          backgroundColor: '#1cc88a',
-          hoverBackgroundColor: '#2e59d9',
-          borderColor: '#1cc88a',
-          data: tricks
-        },
-        {
-          label: 'Disasters',
-          backgroundColor: '#e74a3b',
-          hoverBackgroundColor: '#2e59d9',
-          borderColor: '#e74a3b',
-          data: disasters
-        }
-      ]
-    };
-
-    this.loaded = true;
+      return {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Consecutive',
+            backgroundColor: '#4e73df',
+            hoverBackgroundColor: '#2e59d9',
+            borderColor: '#4e73df',
+            data: shots
+          },
+          {
+            label: 'Trick',
+            backgroundColor: '#1cc88a',
+            hoverBackgroundColor: '#2e59d9',
+            borderColor: '#1cc88a',
+            data: tricks
+          },
+          {
+            label: 'Disasters',
+            backgroundColor: '#e74a3b',
+            hoverBackgroundColor: '#2e59d9',
+            borderColor: '#e74a3b',
+            data: disasters
+          }
+        ]
+      };
+    }
   }
 };
 </script>

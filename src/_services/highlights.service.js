@@ -7,20 +7,22 @@ export const highlightsService = {
       daysSinceLastDisaster: 0
     };
 
-    highlights.mostShots = this.getMostShots(this.players).name;
+    highlights.mostShots = this.getMostShots(players).name;
     highlights.mostTrickShots = this.getMostTrickShots(players).name;
     highlights.mostDisasters = this.getMostDisasterShots(players).name;
+
+    return highlights;
   },
 
   getMostShots(players) {
-    return players.sort((a, b) => a.shots - b.shots)[0];
+    return players.sort((a, b) => b.shots - a.shots)[0];
   },
 
   getMostTrickShots(players) {
-    return this._getTrickShots(players, false)[0];
+    return this.getTrickShots(players, false)[0];
   },
   getMostDisasterShots(players) {
-    return this._getTrickShots(players, true)[0];
+    return this.getTrickShots(players, true)[0];
   },
   getTrickShots(players, isDisaster) {
     return players
@@ -36,6 +38,6 @@ export const highlightsService = {
 
         return player;
       })
-      .sort((a, b) => a.totalShots - b.totalShots);
+      .sort((a, b) => b.totalShots - a.totalShots);
   }
 };

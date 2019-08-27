@@ -107,7 +107,7 @@ export default {
     };
   },
   methods: {
-    addPlayer() {
+    addPlayer(event) {
       const name = this.playerName;
       if (!name || !name.length > 0) {
         return;
@@ -115,6 +115,10 @@ export default {
       this.$emit('playerAdded', name);
 
       $('#addPlayerModal').modal('hide');
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return false;
     }
   },
   mounted() {

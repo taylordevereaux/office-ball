@@ -109,15 +109,26 @@ export default {
       ) {
         return;
       } else {
-        this.players.push({
-          name: playerName,
-          shots: 0,
-          tags: []
-        });
+        playersService
+          .addPlayer({
+            name: playerName,
+            shots: 0,
+            tags: []
+          })
+          .then(result => {
+            this._pushPlayer(result.data);
+          });
       }
+    },
+    _pushPlayer(player) {
+      this.players.push(player);
+      this._refreshHightlights();
     },
     _setPlayers(players) {
       this.players = players;
+      this._refreshHightlights();
+    },
+    _refreshHightlights() {
       if (this.players.length) {
         const highlights = highlightsService.getHightlights(this.players);
         this.highlights = {

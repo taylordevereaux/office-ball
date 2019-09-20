@@ -18,5 +18,8 @@ export const playersService = {
         }
       }
     );
+  },
+  getTags() {
+    return axios.get(`${server.baseURL}/api/players/tags`);
   }
 };

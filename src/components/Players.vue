@@ -49,10 +49,25 @@
               {{ tag.name }}
               <span v-if="tag.count > 1">x{{tag.count}}</span>
             </span>
-            <span class="link text-secondary c-pointer">
-              <span class="v-align pr-1" v-if="!player.tags || player.tags.length === 0">Add Tag</span>
-              <i class="fa fa-plus-circle"></i>
-            </span>
+            <div class="dropdown no-arrow d-inline">
+              <a
+                class="btn btn-outline-primary btn-sm dropdown-toggle border-0"
+                data-toggle="dropdown"
+                aria-expanded="false"
+                role="button"
+              >
+                <span class="v-align pr-1" v-if="!player.tags || player.tags.length === 0">Add Tag</span>
+                <i class="fa fa-plus-circle"></i>
+              </a>
+              <div class="dropdown-menu" role="menu">
+                <a
+                  v-for="(addTag, addIndex) in tags"
+                  :key="addIndex"
+                  class="dropdown-item"
+                  role="presentation"
+                >{{ addTag }}</a>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
@@ -101,12 +116,14 @@
 
 <script>
 import $ from 'jquery';
+import { playersService } from '../_endpoints/players.service';
 
 export default {
   name: 'Players',
   props: ['players'],
   data() {
     return {
+      tags: [],
       playerName: ''
     };
   },
@@ -144,6 +161,14 @@ export default {
     $('#addPlayerModal').on('shown.bs.modal', function() {
       $('#playerName').trigger('focus');
     });
+
+    playersService
+      .getTags()
+      .then(result => {
+        console.log(result);
+        this.tags = result.data;
+      })
+      .catch(error => console.log(error));
   }
 };
 </script>

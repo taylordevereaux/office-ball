@@ -97,10 +97,12 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get(`${server.baseURL}/api/players`, {
-        crossdomain: true
-      })
+    // axios
+    //   .get(`${server.baseURL}/api/players`, {
+    //     crossdomain: true
+    //   })
+    playersService
+      .getPlayers()
       .then(result => this._setPlayers(result.data))
       .catch(error => console.log(error));
   },
@@ -137,6 +139,7 @@ export default {
     },
     _setPlayers(players) {
       this.players = players;
+      console.log(this.players);
       this._refreshHightlights();
     },
     _refreshPlayerShots(playerId, shots) {

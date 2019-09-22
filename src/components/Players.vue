@@ -33,7 +33,7 @@
               <a
                 class="ml-2 link text-primary c-pointer"
                 :data-id="player.id"
-                @click="incremementShots"
+                @click="incrementShots"
               >
                 <i class="fa fa-dribbble fa-2x text-primary"></i>
                 <h4 class="d-inline-block">&nbsp;x{{ player.shots }}</h4>
@@ -128,7 +128,7 @@ export default {
     };
   },
   methods: {
-    addPlayer(event) {
+    async addPlayer(event) {
       const name = this.playerName;
       if (!name || !name.length > 0) {
         return;
@@ -141,7 +141,7 @@ export default {
       event.stopImmediatePropagation();
       return false;
     },
-    incremementShots(event) {
+    incrementShots(event) {
       const id = event.currentTarget.dataset.id;
 
       if (id !== null && id !== undefined) {
@@ -149,7 +149,7 @@ export default {
 
         if (players.length === 1) {
           const player = players[0];
-          this.$emit('incremementShots', {
+          this.$emit('incrementShots', {
             id: player.id,
             shots: event.ctrlKey ? player.shots - 1 : player.shots + 1
           });
@@ -157,18 +157,12 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     $('#addPlayerModal').on('shown.bs.modal', function() {
       $('#playerName').trigger('focus');
     });
 
-    playersService
-      .getTags()
-      .then(result => {
-        console.log(result);
-        this.tags = result.data;
-      })
-      .catch(error => console.log(error));
+    this.tags = await playersService.getTags();
   }
 };
 </script>

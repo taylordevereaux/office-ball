@@ -11,6 +11,10 @@ import 'bootstrap';
 
 Vue.config.productionTip = false;
 
+import router from './router';
+
 new Vue({
-  render: h => h(App)
+  render: h => h(App),
+  router,
+  components: { App }
 }).$mount('#app');

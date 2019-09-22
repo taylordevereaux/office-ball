@@ -4,13 +4,23 @@
       <a class="nav-link active" href="#">TKS Office Ball</a>
     </li>
     <li class="nav-item"></li>
-    <li class="nav-item"></li>
+    <li class="nav-item" href="#" @click.prevent="login" v-if="!user">Login</li>
+    <li class="nav-item" href="#" @click.prevent="logout" v-else>Logout</li>
   </ul>
 </template>
 
 <script>
 export default {
-  name: 'NavBar'
+  name: 'NavBar',
+  data() {
+    return {
+      user: null
+    };
+  },
+  methods: {
+    login() {},
+    async logout() {}
+  }
 };
 </script>
 
